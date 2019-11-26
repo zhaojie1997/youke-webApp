@@ -124,7 +124,7 @@
         height: 0.38rem;
     }
     .s-canvas canvas {
-        margin-top: 1px;
-        margin-left: 8px;
+        margin-top: -1px;
+        /*margin-left: 8px;*/
     }
 </style>

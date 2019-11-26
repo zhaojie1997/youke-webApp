@@ -19,14 +19,14 @@
         </section>
         <section class="login_link">
             <p>温馨提示:未注册柚课App账号,请先点击进入注册页面进行注册  </p>
-            <a>点击注册</a>
+            <a @click="goback()">点击注册</a>
         </section>
         <button class="login_btn" @click="TipDialog">点击登录</button>
     </form>
 </template>
 
 <script>
-    import index from '../../api/index'
+    import login from '../../api/login'
     import Sidentify from './L-Sidentify'
     export default {
         name: "L-password",
@@ -42,6 +42,7 @@
                 identifyCodes: '1234567890abcdefjhijklinopqrsduvwxyz',
                 identifyCode: '',
                 data:'',
+                flag:'',
                 // rules: {
                 //     username: [
                 //         { required: true, message: "请输入用户名", trigger: "blur" }
@@ -56,7 +57,9 @@
             randomNum(min, max) {
                 return Math.floor(Math.random() * (max - min) + min);
             },
-
+            goback(){
+                this.$router.push({path:'/Reger'})
+            },
             refreshCode() {
                 this.identifyCode = "";
                 this.makeCode(this.identifyCodes, 4);
@@ -69,56 +72,88 @@
                 }
             },
             async Home(){
-                this.data= await index.xixi(),
-                    window.console.log(this.data)
+                this.data= await login.xixi()
             },
-            plogin(){
+           plogin(){
                 //表单验证
-                if(this.name != this.data.name && this.name != this.data.phone){
+              this.$dialog.alert({
+                  // title:'标题呀',
+                  message:this.msg
+              }).then(()=>{
+
+              })
+              if(this.name != this.data.name && this.name != this.data.phone){
                     //用户必须指定
                     return
-                }else if(this.pwd != this.data.pwd){
+                }
+              else if(this.captcha!= this.identifyCode){
+                  //验证码必须指定
+                  return
+              }
+
+              else if(this.pwd != this.data.pwd){
                     //密码必须指定
                     return
-                }else if(this.captcha!= this.identifyCode){
-                    //验证码必须指定
-                    return
                 }
-                this.$dialog.alert({
-                    // title:'标题呀',
-                    message:'登录成功'
-                }).then(()=>{
-                })
-                this.$router.push({path:'/Courses'})
-            },
-            TipDialog(){
-                if(this.name != this.data.name && this.name != this.data.phone){
-                    //手机号不正确
-                    this.$dialog.alert({
-                        // title:'标题呀',
-                        message:'请确认用户名是否正确'
-                    }).then(()=>{
-                        window.console.log('点击了确认')
-                    })
-                } else if(this.pwd != this.data.pwd) {
-                    //验证码必须是6位数字
-                    this.$dialog.alert({
-                        // title:'标题呀',
-                        message:'密码不正确'
-                    }).then(()=>{
-                        window.console.log('点击了确认')
-                    })
-                }else if(this.captcha!= this.identifyCode){
-                    //验证码必须指定
-                    this.$dialog.alert({
-                        // title:'标题呀',
-                        message:'验证码不正确'
-                    }).then(()=>{
-                    })
-                }
-                // },
+          },
+          async  TipDialog(){
 
-            }
+              await this.$axios.post(this.HOST+'/youke/auth/login/',{'phone':this.phone,'pwd':this.pwd,'name':this.name,"flag":this.flag})
+                    .then(res=>{
+                        window.console.log(res.data)
+                        if(res.data.code==200){
+                            this.msg = res.data.data.msg
+                            this.$router.push({path:'/mine'})
+                            // Token
+                            window.localStorage.setItem('token', res.data.data.token)
+
+                        }else{
+                            this.msg = res.data.msg
+                        }
+                    })
+              this.$dialog.alert({
+                  // title:'标题呀',
+                  message:this.msg
+              }).then(()=>{
+
+              })
+
+              if(this.captcha != this.identifyCode){
+                  this.flag = false
+              }else if(this.captcha == this.identifyCode){
+                  this.flag = true
+              }
+
+
+              if(this.name==""){
+                  //手机号不正确
+                  this.$dialog.alert({
+                      // title:'标题呀',
+                      message:'用户名不能为空'
+                  }).then(()=>{
+
+                  })
+              }
+
+              else if(this.pwd =="") {
+
+                  this.$dialog.alert({
+                      // title:'标题呀',
+                      message:'密码不能为空'
+                  }).then(()=>{
+                      window.console.log('点击了确认')
+                  })
+              }
+              else if(this.captcha != this.identifyCode){
+                 this.$dialog.alert({
+                      message:"验证码不正确"
+                  }).then(()=>{
+
+                  })
+              }
+
+
+          }
         },
         created() {
             //初始化验证码

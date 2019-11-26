@@ -1,0 +1,31 @@
+#stitle{
+    display: flex;
+    flex-wrap: wrap;
+    width:2.9rem;
+    font-size: 0.12rem;
+    margin:0.5rem 0 0 0.8rem;
+    height: 900px;
+}
+#stitle li{
+    width:33.33%;
+    height:0.65rem;
+    text-align: center;
+}
+#stitle img{
+    width: 0.4rem;
+    height: 0.4rem;
+    display: block;
+    margin:0.06rem 0 0 0.295rem;
+}
+#stitle p{
+    width: 100%;
+    text-align: center; 
+    font-size: 0.16rem;
+    line-height: 0.6rem;
+}
+#stitle a{
+    color: black;    
+}
+.qwe{
+    color: red;
+}

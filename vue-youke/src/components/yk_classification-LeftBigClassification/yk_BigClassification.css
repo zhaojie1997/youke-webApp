@@ -1,0 +1,16 @@
+#L{ 
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    width: 0.8rem;
+    text-align: center;
+    font-size: 0.14rem;
+    margin-top: 0.5rem;
+}
+#L li{
+    width: 100%;
+    line-height: 0.61rem;
+}
+.col{
+    color:#f4a01b;
+}

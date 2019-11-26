@@ -2,7 +2,7 @@
     <form @submit.prevent="login">
         <section class="login_message">
             <input type="text"  placeholder="手机号" v-model="phone">
-            <button :disabled="!rightPhone" class="validation" :class="{right_phone:rightPhone}" @click.prevent="getCode">
+            <button :disabled="!rightPhone" class="validation" :class="{right_phone:rightPhone}" @click.prevent="getCode" >
                 {{computeTime>0 ? `已发送(${computeTime}s)` : '获取验证码'}}
             </button>
         </section>
@@ -11,14 +11,14 @@
         </section>
         <section class="login_link">
             <p>温馨提示:未注册柚课App账号,请先点击进入注册页面进行注册  </p>
-            <a>点击注册</a>
+            <a @click="goback()">点击注册</a>
         </section>
         <button class="login_btn" @click="TipDialog">点击登录</button>
     </form>
 </template>
 
 <script>
-    import index from '../../api/index'
+    import login from '../../api/login'
     import { Dialog } from 'vant';
     export default {
         name: "L-note",
@@ -40,11 +40,13 @@
         },
         methods:{
             async Home(){
-                this.data= await index.xixi(),
-                window.console.log(this.data)
+                this.data= await login.haha()
+            },
+            goback(){
+                this.$router.push({path:'/Reger'})
             },
             //异步获取短信验证码
-            getCode(){
+           async getCode(){
             //如果当前没有计时
             if(!this.computeTime){
                 //启动倒计时
@@ -56,12 +58,15 @@
                         clearInterval(this.intervalId)
                     }
                 },1000)
-                //发送ajax请求(向指定手机号发送验证码短信)
-
-                }
-
+                // 发送ajax请求(向指定手机号发送验证码短信)
+                this.$axios.post(this.HOST+'/youke/auth/code/',{'phone':this.phone})
+                    .then(res=>{
+                        window.console.log(res.data)
+                        this.msg = res.data.msg
+                    })
+            }
             },
-            async login(){
+            login(){
                 if(!this.rightPhone){
                     //手机号不正确
                     return
@@ -76,32 +81,59 @@
                 }
                 this.$dialog.alert({
                     // title:'标题呀',
-                    message:'登录成功'
+                    message:this.msg
                 }).then(()=>{
 
                 })
+                this.$axios.post(this.HOST+'/youke/auth/login_sms/',{'phone':this.phone,'code':this.code})
+                    .then(res=>{
+                        window.console.log(res.data)
+                        window.console.log(this.phone)
+                        this.msg = res.data.msg
+                    })
             },
 
-             TipDialog(){
-                // login(){
+             async TipDialog(){
                     //表单验证
-                    if(!this.rightPhone){
-                        //手机号不正确
-                        this.$dialog.alert({
-                            // title:'标题呀',
-                            message:'手机号不正确'
-                        }).then(()=>{
-                            window.console.log('点击了确认')
-                        })
-                    } else if(this.code != this.data.code) {
-                        //验证码必须是6位数字
-                        this.$dialog.alert({
-                            // title:'标题呀',
-                            message:'请检查验证码'
-                        }).then(()=>{
-                        })
-                    }
-                // },
+                 await this.$axios.post(this.HOST+'/youke/auth/login_sms/',{'phone':this.phone,"code":this.code})
+                     .then(res=>{
+                         window.console.log(res.data)
+                         if(res.data.code==200){
+                             this.msg = res.data.data.msg
+                             this.$router.push({path:'/mine'})
+                             // Token
+                             window.localStorage.setItem('token', res.data.data.token)
+
+                         }else{
+                             this.msg = res.data.msg
+                         }
+                     })
+                 this.$dialog.alert({
+                     // title:'标题呀',
+                     message:this.msg
+                 }).then(()=>{
+
+                 })
+                 if(!this.rightPhone){
+                     //手机号不正确
+                     this.$dialog.alert({
+                         // title:'标题呀',
+                         message:'手机号不正确'
+                     }).then(()=>{
+                         window.console.log('点击了确认')
+                     })
+                 } else if(this.code == "") {
+                     this.$dialog.alert({
+                         message:"验证码不能为空"
+                     }).then(()=>{
+                     })
+                 }
+                 if(this.computeTime) {
+                     this.computeTime = 0
+                     clearInterval(this.intervalId)
+                     this.intervalId = undefined
+                 }
+
 
             }
 
