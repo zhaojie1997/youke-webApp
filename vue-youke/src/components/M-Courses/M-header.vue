@@ -13,6 +13,7 @@
                 :style="{ height: '40%',backgroundColor:'#fbf9f9'}"
         >
             <uploader :options="options" class="uploader-example">
+
             <uploader-unsupport></uploader-unsupport>
             <uploader-drop>
                 <p>将文件拖放到此处进行上传</p>
@@ -39,8 +40,9 @@
                 show: false,
                 options: {
                     // 可通过 https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js 示例启动服务
-                    target: 'https://jsonplaceholder.typicode.com/posts',
+                    target: 'http://47.92.132.161:8000/youke/auth/file/',
                     testChunks: false,
+                    fileParameterName: 'head',
                 },
                 attrs: {
                     accept: 'image/*'

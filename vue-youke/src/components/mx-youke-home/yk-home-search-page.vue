@@ -16,7 +16,7 @@
 <!--        搜索到的课程显示区-->
         <keep-alive>
             <div class="yk-home-recommen" v-if="data.serachData!='不好意思，没查到该数据！'">
-                    <div class="search-item" :key="i" v-for="(n,i) in data.serachData">
+                    <div class="search-item" :key="i" v-for="(n,i) in data.serachData" @click="godetail(n.lessionId)">
                         <img :src="n.lessionImg" alt="">
                         <div class="search-item-info">
                             <p class="search-item-name">{{n.lessionName}}</p>
@@ -62,6 +62,9 @@
                         })
                     this.prompt = false
                 }
+            },
+            godetail(pid){
+                this.$router.push('/gd?pid='+pid)
             },
             searchto1(){
                 this.key = this.$refs.s1.innerHTML

@@ -3,7 +3,6 @@
         <div class="yk-home-top-search">
 <!--            <img src="../../assets/img/logon.png" alt="" class="yk-home-logo">-->
             <a href="/search"><input type="text" placeholder="搜索课程"></a>
-            <span>搜索</span>
         </div>
         <yk-home-swp :data="data"></yk-home-swp>
 <!--        模块切换-->

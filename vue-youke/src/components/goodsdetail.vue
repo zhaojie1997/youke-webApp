@@ -2,7 +2,7 @@
 	<div id="con">
 		<a href="#" id="totop" ref='totop'></a>
 		<div id="header">
-			<span @click="goback()"></span>
+			<span @click="gb()"></span>
 			<span>
 			</span>
 			<p>
@@ -10,17 +10,7 @@
 			</p>
 		</div>
 		<div id="video">
-			<video width="100%" height="100%" controls="controls" id="my-video" poster="../assets/LJ-detail/poster.jpg" style="object-fit:fill;">
-				<source src="" type="video/mp4">
-				<source src="" type="video/ogg">
-				<source src="" type="video/webm">
-				<source src="rtmp://47.92.312.161/vod/1.计算机简介.mp4" type="rtmp/clv">
-				<object width="" height="" type="application/x-shockwave-flash" data="myvideo.swf">
-					<param name="movie" value="myvideo.swf" />
-					<param name="flashvars" value="autostart=true&amp;file=myvideo.swf" />
-				</object>
-				当前浏览器不支持 video直接播放，点击这里下载视频： <a href="myvideo.webm">下载视频</a>
-			</video>
+			<videoPlayer ref="videoPlayer" :options="videoOptions" class="vjs-custom-skin videoPlayer vjs-big-play-centered" />
 		</div>
 		<div class="con">
 			<div id="pl">
@@ -38,11 +28,11 @@
 				<p><input type="text" placeholder="每次最多评论120字"><span></span></p>
 				<ul>
 					<li>
-						<p><img src="LJ-detail/p1.jpg" alt="" class="photo"><span class="name">伍六七</span><span class="time">2019-11-23</span></p>
+						<p><img src="../assets/LJ-detail/p1.jpg" alt="" class="photo"><span class="name">伍六七</span><span class="time">2019-11-23</span></p>
 						<p>阿珍爱上了阿强，在一个有星星的夜晚</p>
 					</li>
 					<li>
-						<p><img src="LJ-detail/p2.jpg" alt="" class="photo"><span class="name">鸡大保</span><span class="time"></span></p>
+						<p><img src="../assets/LJ-detail/p2.jpg" alt="" class="photo"><span class="name">鸡大保</span><span class="time"></span></p>
 						<p>鸡中霸王</p>
 					</li>
 				</ul>
@@ -66,7 +56,7 @@
 		<div class="con">
 			<div id="goodsdetail">
 				<p id="teacher">{{data.lessonData.teacherDescribe}}</p>
-				<p>{{data.lessonData.teacherDescribe}}</p>
+				<p>{{data.lessonData.lessonDescribe}}</p>
 			</div>
 		</div>
 		<div class="con" v-if="data.likeData.length!=0">
@@ -90,9 +80,13 @@
 
 <script>
 	import show from "./gdtabs/show"
-	import msg from "../assets/s1.json"
-	// import getdata from '../api/detail.js'
+	// import msg from "../assets/s1.json"
+	import getdata from '../api/detail.js'
 	import addtocart from '../api/addtocart.js'
+	import "video.js/dist/video-js.css";
+    import "video.js/dist/video-js.css";
+    import { videoPlayer } from "vue-video-player";
+    import "videojs-flash";
 
 	export default {
 		name: "goods-detail",
@@ -101,55 +95,81 @@
 				commentflag: false,
 				data: '',
 				thumbsUpFlag: false,
-				addflag:'',
-				sure:false,
-				prompt:''
+				addflag: '',
+				sure: false,
+				pid:'',
+				prompt: '',
+				player: null,
+                videoOptions: {
+                    sources: [{
+                        type: "rtmp/mp4",
+                        src: "rtmp://47.92.132.161/vod/f6106bc8001046b8a5c314a51446518e15input.mp4"
+                    }],
+                    techOrder: ["flash"],
+                    muted: true, // 默认静音
+                    preload: "auto", // 视频预加载
+                    autoplay: true,
+                    controls: true,
+                    notSupportedMessage: "此视频暂无法播放，请稍后再试"
+                }
 			}
 		},
 		methods: {
 			thumbsUp() {
 				this.thumbsUpFlag = !this.thumbsUpFlag
 			},
-			// async get() {
-			// 	var str="lessonId="+this.$route.path
-			// 	this.data = await getdata.fun("lessonId=1&uid=1");
-			// },
-			a(n){
-				this.prompt=n;
-				this.sure=true;
+			async get() {
+				if (localStorage.getItem("token") != null) {
+                    //自定义代码
+                    this.data = await getdata.fun("lessonId="+this.pid+"&token="+window.localStorage.getItem('token'));
+                }
+                if (localStorage.getItem("token") == null) {
+                    //自定义代码
+                    this.data = await getdata.fun(this.pid);
+                }
+
+				window.console.log(this.data);
 			},
-			async send(){
+			a(n) {
+				this.prompt = n;
+				this.sure = true;
+			},
+			async send() {
+				let ls=localStorage;
 				this.addflag = await addtocart.fun({
-					"uid":"1",
-					"pid":this.data.lessonData.lessonId
+					"token":ls.token,
+					"lessonId": this.data.lessonData.lessonId
 				});
-				window.console.log(this.addflag,this.data.lessonData.lessonId)
-				this.sure=false;
+				window.console.log(this.addflag, this.data.lessonData.lessonId)
+				this.sure = false;
 			},
-            goback(){
-                this.$router.go(-1);
-            },
+			gb(){
+this.$router.go(-1)
+			}
 		},
 		components: {
-			show
+			show,
+			videoPlayer
 		},
 		beforeMount() {
-			this.data=msg
-			// this.get()
-			
+
+			// this.data = msg
+			this.pid="lessonId="+this.$route.query.pid
+			window.console.log(this.pid=="lessonId=1001",1111)
+            this.get();
 		},
 		mounted() {
-		
+			
 			function navBgc() {
 				let toTop = document.getElementById("totop")
 				let _top = document.body.scrollTop || document.documentElement.scrollTop;
-				if (_top <= 200||_top==0) {
+				if (_top <= 200 || _top == 0) {
 					toTop.style.display = "none"
 				} else {
 					toTop.style.display = "block"
 				}
 			}
-			
+
 			window.onscroll = function() {
 				navBgc();
 			}
@@ -158,7 +178,11 @@
 </script>
 
 <style scoped="scoped">
-	@import '../assets/style.css';
+	.vjs-paused .vjs-big-play-button,
+	.vjs-paused.vjs-has-started .vjs-big-play-button {
+		display: block;
+	}
+
 	.thumbspic2 {
 		background-image: url(../assets/LJ-detail/thumbsup1.png);
 	}
@@ -172,7 +196,7 @@
 		overflow: auto;
 		background-color: white;
 		padding-bottom: 0.5rem;
-		font-family: -apple-system,Helvetica,sans-serif;
+		font-family: -apple-system, Helvetica, sans-serif;
 	}
 
 	#totop {
@@ -241,6 +265,7 @@
 
 	#video>video {
 		display: block;
+		margin: 0 auto;
 	}
 
 	.con {
@@ -320,9 +345,6 @@
 		z-index: 2;
 	}
 
-	::-webkit-input-placeholder { /* WebKit browsers */
-		font-size: 0.14rem;
-	}
 	#comment>p {
 		background-color: white;
 		border-radius: 0.15rem;
@@ -344,9 +366,6 @@
 		outline: none;
 		margin-left: 0.1rem;
 		margin-top: 0.025rem;
-		font-size: 0.14rem;
-		text-align: center;
-		line-height: 0.25rem;
 	}
 
 	#comment>p>span {
@@ -563,7 +582,8 @@
 	#recommend .price {
 		color: rgb(127, 182, 68);
 	}
-	#sure{
+
+	#sure {
 		background-color: white;
 		height: 1.5rem;
 		width: 2.6rem;
@@ -571,22 +591,24 @@
 		top: 2rem;
 		left: 0.525rem;
 		border-radius: 0.08rem;
-		border: 0.005rem solid rgba(0,0,0,0.4);
+		border: 0.005rem solid rgba(0, 0, 0, 0.4);
 		box-sizing: border-box;
 		overflow: hidden;
 		font-size: 0.14rem;
 		text-align: center;
 		line-height: 1rem;
-		font-family: -apple-system,Helvetica,sans-serif;
+		font-family: -apple-system, Helvetica, sans-serif;
 	}
-	#sure>div{
+
+	#sure>div {
 		position: absolute;
 		bottom: 0;
 		display: flex;
 		height: 0.5rem;
 		width: 100%;
 	}
-	#sure>div>button{
+
+	#sure>div>button {
 		width: 50%;
 		height: 0.5rem;
 		border: none;
@@ -596,10 +618,12 @@
 		text-align: center;
 		line-height: 0.5rem;
 	}
-	#sure>div>button:nth-child(1){
+
+	#sure>div>button:nth-child(1) {
 		background-color: rgb(127, 182, 68);
 	}
-	#sure>div>button:nth-child(2){
-		background-color: rgb(244,160,27);
+
+	#sure>div>button:nth-child(2) {
+		background-color: rgb(244, 160, 27);
 	}
 </style>

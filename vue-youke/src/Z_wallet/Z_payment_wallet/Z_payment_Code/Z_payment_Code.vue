@@ -4,7 +4,7 @@
          <van-cell title="支付密码" is-link  style="width: 3.75rem"  @click="showPopup"/>
 
      <div>
-         <van-popup v-model="show" position="right" :style="{ height: '100%',width:'100%'}" closeable close-icon="close" close-icon-position="top-left">
+         <van-popup v-model="show" position="right" :style="{ height: '100%',width:'3.75rem'}" closeable close-icon="close" close-icon-position="top-left">
              <Z_payment_CodePages></Z_payment_CodePages>
          </van-popup>
 
@@ -21,7 +21,7 @@
         },
         data() {
             return {
-                show: false
+                show: false,
             }
         },
 

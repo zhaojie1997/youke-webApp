@@ -82,21 +82,27 @@
               }).then(()=>{
 
               })
-              if(this.name != this.data.name && this.name != this.data.phone){
-                    //用户必须指定
-                    return
-                }
-              else if(this.captcha!= this.identifyCode){
-                  //验证码必须指定
-                  return
-              }
-
-              else if(this.pwd != this.data.pwd){
-                    //密码必须指定
-                    return
-                }
+              // if(this.name != this.data.name && this.name != this.data.phone){
+              //       //用户必须指定
+              //       return
+              //   }
+              // else if(this.captcha!= this.identifyCode){
+              //     //验证码必须指定
+              //     return
+              // }
+              //
+              // else if(this.pwd != this.data.pwd){
+              //       //密码必须指定
+              //       return
+              //   }
           },
           async  TipDialog(){
+
+              if(this.captcha != this.identifyCode){
+                  this.flag = false
+              }else if(this.captcha == this.identifyCode){
+                  this.flag = true
+              }
 
               await this.$axios.post(this.HOST+'/youke/auth/login/',{'phone':this.phone,'pwd':this.pwd,'name':this.name,"flag":this.flag})
                     .then(res=>{
@@ -118,11 +124,7 @@
 
               })
 
-              if(this.captcha != this.identifyCode){
-                  this.flag = false
-              }else if(this.captcha == this.identifyCode){
-                  this.flag = true
-              }
+
 
 
               if(this.name==""){

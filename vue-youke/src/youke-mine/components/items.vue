@@ -7,12 +7,12 @@
             </div>
             <i class="iconfont">&#xe62d;</i>
         </div>
-        <div>
+        <div class="add">
             <div>
                 <i class="iconfont two">&#xe617;</i>
                 <span>积分</span>
             </div>
-            <i class="iconfont">&#xe62d;</i>
+            <i class="iconfont">{{this.integral}}</i>
         </div>
         <div class="advice">
             <div>
@@ -21,19 +21,41 @@
             </div>
             <i class="iconfont">&#xe62d;</i>
         </div>
-        <div class="set" @click="switchTo('/minerd/setting')">
+        <div class="set" @click="answers('/answers')">
+            <div>
+                <i class="iconfont four">&#xe64e;</i>
+                <span>我的问答</span>
+            </div>
+            <i class="iconfont">&#xe62d;</i>
+        </div>
+        <div class="set" @click="feedback('/feedback')">
+            <div>
+                <i class="iconfont four">&#xe64e;</i>
+                <span>常见问题</span>
+            </div>
+            <i class="iconfont">&#xe62d;</i>
+        </div>
+        <div class="set" @click="switchTo('/mine/setting')">
             <div>
                 <i class="iconfont four">&#xe64e;</i>
                 <span>设置</span>
             </div>
             <i class="iconfont">&#xe62d;</i>
         </div>
+
+
     </div>
 </template>
 
 <script>
 export default{
     methods: {
+        feedback(path){
+            this.$router.replace(path)
+        },
+        answers(path){
+            this.$router.replace(path)
+        },
         switchTo(path){
             this.$router.replace(path)
         },
@@ -44,7 +66,8 @@ export default{
             }
         }
 
-    }
+    },
+    props:["integral"]
 }
 </script>
 
@@ -53,9 +76,8 @@ export default{
         font-size: 0.16rem;
         padding-left: 0.2rem;
         box-sizing: border-box;
-        margin-top: 0.4rem;
+        margin-top: 0.2rem;
         width: 100%;
-        height: 0.81rem;
         line-height: 0.4rem;
     }
     .items>div{
@@ -71,7 +93,7 @@ export default{
         margin-left: 0.1rem;
     }
     .iconfont{
-        font-size: 0.24rem;
+        font-size: 0.16rem;
     }
     .one{
         color: #D81E06;
@@ -90,5 +112,8 @@ export default{
     }
     .set{
         margin-top:0.2rem;
+    }
+    .add{
+        margin-top: 0.2rem;
     }
 </style>

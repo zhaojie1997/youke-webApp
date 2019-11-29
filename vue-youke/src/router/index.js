@@ -18,12 +18,49 @@ import cart from '../components/cart.vue'
 import goodsdetail from '../components/goodsdetail.vue'
 import Search from "../components/mx-youke-home/yk-home-search-page"
 import ykHomeDetail from "../components/mx-youke-home/yk-home-detail"
-import yk_Classification from "../views/yk_Classification"
-
+import sort from "../views/sort"
+import Z_payment_CodePagea from '../Z_wallet/Z_payment_wallet/Z_payment_Code/Z_payment_CodePage/Z_payment_CodePagea'
+import Z_payment_Purchaserecord from '../Z_wallet/Z_payment_Purchaserecord/Z_payment_Purchaserecord'
+import classs from '../views/class'
+import ceshi from "../views/ceshi"
+import settinga from '../youke-mine/setting/setting_G'
+import zhifu from '../Z_wallet/zhizhi '
+import xieyi from '../views/Xiexi'
+import answers from '../youke-mine/feedback/answers'
+import feedback from '../youke-mine/feedback/feedback'
 Vue.use(VueRouter)
 
 
 const routes = [
+    {   path:"/feedback",
+        name:'feedback',
+        component:feedback
+    },
+    {   path:"/answers",
+        name:'answers',
+        component:answers
+    },
+    {   path:"/xieyi",
+        name:'xieyi',
+        component:xieyi
+    },
+    {   path:"/zhifu",
+        name:'zhifu',
+        component:zhifu
+    },
+    {   path:"/settinga",
+        name:'settinga',
+        component:settinga
+    },
+    {   path:"/Z_payment_Purchaserecord",
+        name:'Z_payment_Purchaserecord',
+        component:Z_payment_Purchaserecord
+    },
+
+    {
+        path: '/ceshi',
+        component: ceshi
+    },
     {
         path: '/',
         name: '',
@@ -48,11 +85,11 @@ const routes = [
     component: Minerd
   },
   {
-    path: '/minerd/setting',
+    path: '/mine/setting',
     component: Setting
   },
   {
-    path: '/minerd/person',
+    path: '/mine/person',
     component: Person
   },
   {
@@ -70,11 +107,10 @@ const routes = [
             requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
         },
     },
-    {path:"/payment",component:Z_payment,
+    {path:"/payment",component:Z_payment,name:'/Z_payment',
         meta: {
             requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-        },
-    },
+        },},
     {path:"/Cashwithdrawal",component:Z_payment_Cashwithdrawal},
     {path:"/Reger",component:Reger},
     {path:"/Order",component:Order,
@@ -110,7 +146,15 @@ const routes = [
         path:'/detail',
         component:ykHomeDetail
     },
-    {path:"/Classification",component:yk_Classification}
+    {path:"/sort",component:sort},
+    {   path:"/Z_payment_CodePagea",
+        name:'Z_payment_CodePagea',
+        component:Z_payment_CodePagea
+    },
+    {
+        path:'/classs',
+        component:classs,
+    },
 ]
 
 

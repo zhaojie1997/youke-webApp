@@ -14,7 +14,6 @@ import { loading } from "vant"
 let bus = new Vue()
 Vue.prototype.$bus = bus
 Vue.prototype.$axios = axios
-
 Vue.prototype.$eventBus = new Vue()
 Vue.config.productionTip = false
 Vue.use(uploader)
@@ -22,10 +21,15 @@ Vue.use(ElementUI)
 Vue.use(loading)
 Vue.use(Vant);
 Vue.prototype.HOST = 'http://47.92.132.161:8000'
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css' // 引入样式
+import 'vue-video-player/src/custom-theme.css' // 引入样式
+import 'videojs-flash'
+Vue.use(VueVideoPlayer)
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
 
 router.beforeEach((to,from,next)=>{

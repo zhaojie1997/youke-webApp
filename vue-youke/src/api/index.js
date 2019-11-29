@@ -1,7 +1,6 @@
-const BASEURL = 'http://localhost:3000/api'
+const BASEURL = 'http://47.92.132.161:8001/gate'
 
-const Myname = `${BASEURL}/index`
-
+const Myname = `${BASEURL}/all_/`
 export default{
         async xixi(){
             let res =await fetch(Myname)

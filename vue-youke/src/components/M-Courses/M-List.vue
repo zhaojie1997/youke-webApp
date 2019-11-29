@@ -11,7 +11,6 @@
                     <p class="courses_look"><span>18</span>柚币/节课</p >
                     <p class="courses_look">点击量:<span>5000</span>次</p>
                     <p class="courses_look">购买数量:<span>5000</span>人</p>
-                    <p class="courses_look"><span>100</span>kb</p>
                 </div>
             </div>
         </div>

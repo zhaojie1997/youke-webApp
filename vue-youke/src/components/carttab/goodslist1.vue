@@ -3,10 +3,10 @@
 		<span :class="checkflag?'check2':'check1'" @click="a()">
 		</span>
 		<div>
-			<div><img :src="data.pic"></div>
+			<div><img :src="data.yk_lesson_img"></div>
 			<div>
-				<p class="goodsinfo">{{data.info}}</p>
-				<p class="price">￥：<span>{{data.price}}</span></p>
+				<p class="goodsinfo">{{data.yk_lesson_name}}<br>{{data.yk_lesson_name}}</p>
+				<p class="price">￥：<span>{{data.yk_lesson_price}}</span></p>
 			</div>
 		</div>
 	</div>
@@ -25,7 +25,7 @@
 			a() {
 				this.checkflag = !this.checkflag;
 				this.$store.dispatch("up",{
-					'pid': this.data.pid,
+					'pid': this.data.id,
 					'checkflag':this.checkflag
 				})
 			}
@@ -37,15 +37,23 @@
 					'pid': this.data.pid,
 					'checkflag':this.checkflag
 				})
+				
+			},
+			checkflag(){
+				this.$store.dispatch("up",{
+					'pid': this.data.pid,
+					'checkflag':this.checkflag
+				})
+				
 			}
 		},
 		mounted() {
-			this.$eventBus.$on("xx", (a) => {
+			this.$bus.$on("xx", (a) => {
 				this.checkflag = a;
 			})
 			this.$store.dispatch("act", {
-				'pid': this.data.pid,
-				'price': this.data.price,
+				'pid': this.data.id,
+				'price': this.data.yk_lesson_price,
 				'checkflag':this.checkflag
 			});
 		}

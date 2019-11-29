@@ -10,9 +10,11 @@
         <input class="phone" type="password" placeholder="密码" v-model="pwd">
         <input type="password" class="phone" placeholder="确认密码" v-model="pwd_code">
 
-        <button class="subLogin" @click="submit">注册</button>
+        <button class="subLogin" @click="submit" :disabled="!isagree">注册</button>
         <div class="loginf_deal">
-            <p>注册即代表你同意<span>用户协议</span>和<span>隐私政策</span></p>
+            <label for="agree">
+                <input type="checkbox" id="agree" v-model="isagree">注册即代表你同意<span>用户协议</span>和<span>隐私政策</span>
+            </label>
             <a @click="tiaozhuan" class="infoo">已有账号请直接登录</a>
         </div>
     </form>
@@ -30,6 +32,7 @@
         name: 'Rtele',
         data() {
             return {
+                isagree:false,
                 show: true,
                 count: '',
                 timer: null,

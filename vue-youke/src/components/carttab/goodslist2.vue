@@ -2,14 +2,14 @@
 	<div class="goodslist">
 		<div>
 			<div>
-				<img :src="data.pic" alt="">
+				<img :src="data.yk_lesson_img" alt="">
 			</div>
 			<div>
-				<p class="title">{{data.title}}</p>
-				<p class="detail">{{data.detail}}</p>
+				<p class="title">{{data.yk_lesson_name}}</p>
+				<p class="detail">{{data.yk_course_chapter}}</p>
 			</div>
 		</div>
-		<p>已完成：<span class="process">{{data.process}}</span></p>
+		<p>已完成：<span class="process">{{data.yk_lesson_price}}</span></p>
 	</div>
 </template>
 
@@ -49,7 +49,7 @@
 	.title {
 		padding: 0.05rem;
 		width: 1.8rem;
-		height: 0.38rem;
+		height: 0.4rem;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;

@@ -11,7 +11,7 @@
             <L-note v-if="loginWay==false"></L-note>
             <L-password v-if="loginWay==true"></L-password>
             <div class="login_deal">
-                <p>登录即代表你同意<span>用户协议</span>和<span>隐私政策</span></p>
+                <p>登录即代表你同意<span @click="gotoback()">用户协议</span>和<span>隐私政策</span></p>
                 <p>遇到问题?<span>查看帮助</span></p>
             </div>
         </div>
@@ -41,6 +41,11 @@
                 // alertShow: false, // 是否显示警告框
             }
         },
+        methods:{
+            gotoback(){
+                this.$router.push({path:'/xieyi'})
+            }
+        }
     }
 </script>
 

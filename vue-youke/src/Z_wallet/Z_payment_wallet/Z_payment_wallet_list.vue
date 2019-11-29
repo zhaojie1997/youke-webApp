@@ -44,7 +44,7 @@ import Z_payment_Discount from './Z_payment_Discount/Z_payment_Discount'
            'Z_payment_Integrals':Z_payment_Integral,
            'Z_payment_Ranks':Z_payment_Rank,
            'Z_payment_Discounts':Z_payment_Discount
-       }
+       },
     }
 </script>
 

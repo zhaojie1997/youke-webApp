@@ -3,10 +3,10 @@
        <div class="Z-ZH-box">
            <div class="Z-ZHbox-div" @click="showPopup">
               <span style="width: 1.2rem;display: flex;justify-content: center"> <img src="../../../public/ZHimg/789.png" alt="" style="width: 0.5rem;height: 0.5rem"></span>
-               <span  >0.00<i>柚币</i></span>
+               <span>{{money}}<i>柚币</i></span>
 
            </div>
-           <div class="Z-ZHbox-div2">
+           <div class="Z-ZHbox-div2" @click="showZD">
                <span style="width: 1.2rem;display: flex;justify-content: center"> <img src="../../../public/ZHimg/1235.png" alt="" style="width: 0.6rem;height: 0.6rem"></span>
                <span>购买记录</span>
            </div>
@@ -31,14 +31,31 @@
         },
         data() {
             return {
-                show: false
+                show: false,
+                token:window.localStorage.getItem('token'),
+                money:''
             }
         },
 
         methods: {
+            showZD(){
+                this.$router.push({name:'Z_payment_Purchaserecord'})
+            },
+
             showPopup() {
                 this.show = true;
+            },
+            getYb(){
+                this.$axios.get('http://47.92.132.161:8000/youke/auth/wallet/?token='+this.token).then(res=>{
+                    this.money = res.data.data.data.money
+                    window.console.log(res.data)
+                })
+
             }
+
+        },
+        mounted(){
+            this. getYb()
         }
 
     }

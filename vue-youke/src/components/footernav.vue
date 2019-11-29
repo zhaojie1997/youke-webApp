@@ -5,7 +5,7 @@
 				<router-link tag="p" to='/home' >首页</router-link>
 			</li>
 			<li :class="flag==2?'b1':'b'" >
-				<router-link tag="p" to='/home'>分类</router-link>
+				<router-link tag="p" to='/sort'>分类</router-link>
 			</li>
 			<li :class="flag==3?'c1':'c'" >
 				<router-link tag="p" to='/cart'>课程表</router-link>
@@ -28,7 +28,7 @@
         mounted() {
             if(this.$route.path=='/home'){
                 this.flag=1
-            }else if(this.$route.path=='/home'){
+            }else if(this.$route.path=='/sort'){
                 this.flag=2
             }else if(this.$route.path=='/cart'){
                 this.flag=3

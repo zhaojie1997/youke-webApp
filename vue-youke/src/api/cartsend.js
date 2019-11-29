@@ -1,4 +1,4 @@
-const url='https://jsonplaceholder.typicode.com/posts'
+const url='http://47.92.132.161:8001/cart/buy_lesson'
 
 export default {
 	async fun(data) {

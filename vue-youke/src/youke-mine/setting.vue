@@ -1,11 +1,11 @@
 <template>
     <div class="set">
         <div class="head">
-            <i class="iconfont" @click="switchTo('/mine')">&#xe62d;</i>
+            <i class="iconfont" @click="switched('/mine')">&#xe62d;</i>
             <span>设置</span>
         </div>
         <div class="items">
-            <div @click="switchTo('/minerd/person')">
+            <div @click="switchda('/mine/person')">
                 <span>修改个人信息</span>
                 <i class="iconfont">&#xe62d;</i>
             </div>
@@ -15,7 +15,8 @@
             </div>
             <div>
                 <span>解绑</span>
-                <span class="mar">177****1234</span>
+                <span class="mar"></span>
+                <i class="iconfont">&#xe62d;</i>
             </div>
              <div>
                 <span>优先下载路径</span>
@@ -29,13 +30,13 @@
                 <span>软件升级</span>
                 <i class="iconfont">&#xe62d;</i>
             </div>
-             <div>
-                <span>关于</span>
+             <div @click="settinga('/settinga')">
+                <span >关于</span>
                 <i class="iconfont">&#xe62d;</i>
             </div>
-            <div class="dis" >
+            <div class="dis" @click="change">
                 <span>清除缓存</span>
-                <span class="mar">68.4KB</span>
+                <span class="mar">{{ num }}KB</span>
             </div>
         </div>
 
@@ -43,13 +44,32 @@
             <p>退出登录</p>
         </div>
     </div>
-</template>>
+</template>
 
 <script>
 export default{
+    data(){
+        return{
+            num: "87.68"
+        }
+    },
     methods: {
+        settinga(path){
+            // this.$router.push({name:'/settinga'})
+            this.$router.replace(path)
+        },
         switchTo(path){
             this.$router.replace(path)
+            window.localStorage.removeItem('token');
+        },
+        switched(path){
+            this.$router.replace(path)
+        },
+        switchda(path){
+            this.$router.replace(path)
+        },
+        change(){
+            this.num = "0"
         }
     }
 }
@@ -107,7 +127,7 @@ export default{
         justify-content: center;
         align-items: center;
         border: 0.01rem solid yellow;
-        background-color: darkred;
+        background-color: #ee6700;
         color: white;
         border-radius: 0.2rem;
     }
